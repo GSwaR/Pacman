@@ -5,6 +5,7 @@ using UnityEngine;
 public class MovingInputHandler : InputHandler
 {
     private Command Button;
+    //private Command ContinueButton;
 
     public override Command HandleInput()
     {
@@ -19,35 +20,61 @@ public class MovingInputHandler : InputHandler
     private void Awake()
     {
         Button = ScriptableObject.CreateInstance<Moving>();
+        //ContinueButton = ScriptableObject.CreateInstance<ContinueMoving>();
     }
 }
 
 class Moving : Command
 {
+    protected Vector2 previousDirection = Vector2.left;
+
     public override void Execute(GameObject gameObject, Vector2 direction, Vector2 pos, float speed)
     {
-        if (isWall(gameObject, direction))
+        if (direction != Vector2.zero && isWall(gameObject, direction))
         {
+            Vector2 position = Vector2.MoveTowards(gameObject.transform.position, pos, speed);
+            previousDirection = direction;
+            gameObject.GetComponent<Rigidbody2D>().MovePosition(position);
+        }
+        else if (isWall(gameObject, previousDirection))
+        {
+            pos = (Vector2)gameObject.transform.position + previousDirection;
             Vector2 position = Vector2.MoveTowards(gameObject.transform.position, pos, speed);
             gameObject.GetComponent<Rigidbody2D>().MovePosition(position);
         }
-        else
-        {
-
-        }
         
-
     }
 
-    private bool isWall(GameObject gameObject, Vector2 direction)
+    protected bool isWall(GameObject gameObject, Vector2 direction)
     {
         Vector2 pos = gameObject.transform.position;
-
-        RaycastHit2D hit = Physics2D.Linecast(pos + direction * 0.45f, pos);
-        return (hit.collider == gameObject.GetComponent<Collider2D>());
+        RaycastHit2D hit = Physics2D.Linecast(pos + direction * 1.15f, pos);
+        return !(hit.collider.CompareTag("obstacle"));
     }
 
 }
+
+
+//class ContinueMoving : Moving
+//{
+//    public override void Execute(GameObject gameObject, Vector2 direction, Vector2 pos, float speed)
+//    {
+//        Debug.Log(previousDirection);
+//        if (isWall(gameObject, previousDirection))
+//        {
+            
+//            pos = (Vector2)gameObject.transform.position + previousDirection;
+//            Vector2 position = Vector2.MoveTowards(gameObject.transform.position, pos, speed);
+//            gameObject.GetComponent<Rigidbody2D>().MovePosition(position);
+//        }
+//        else if (isWall(gameObject, direction))
+//        {
+//            Vector2 position = Vector2.MoveTowards(gameObject.transform.position, pos, speed);
+//            //previousDirection = direction;
+//            gameObject.GetComponent<Rigidbody2D>().MovePosition(position);
+//        }
+//    }
+//}
 
 public class DirrectionHandler 
 {
@@ -74,6 +101,6 @@ public class DirrectionHandler
             previousDirection = Vector2.right;
             return Vector2.right;
         }
-        else return previousDirection;
+        else return Vector2.zero;
     }
-}
+} 
