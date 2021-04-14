@@ -78,27 +78,27 @@ class Moving : Command
 
 public class DirrectionHandler 
 {
-    private Vector2 previousDirection = Vector2.zero;
+
     public Vector2 HandleInput()
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            previousDirection = Vector2.up;
+
             return Vector2.up;
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            previousDirection = Vector2.down;
+
             return Vector2.down;
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            previousDirection = Vector2.left;
+  
             return Vector2.left;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            previousDirection = Vector2.right;
+
             return Vector2.right;
         }
         else return Vector2.zero;
