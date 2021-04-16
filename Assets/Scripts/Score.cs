@@ -10,6 +10,8 @@ public class Score : MonoBehaviour
     private Text text;
     private int scorePoint = 10000;
 
+    public int MaxScore;
+
     public event Action OnScore;
     private Score scoreObject;
     private Life lifeObject;
@@ -35,6 +37,11 @@ public class Score : MonoBehaviour
             scoreObject.OnScore?.Invoke();
 
             scorePoint *= 2;
+        }
+
+        if (score >= MaxScore)
+        {
+            FindObjectOfType<PacMan_AI>().GameReset();
         }
     }
 

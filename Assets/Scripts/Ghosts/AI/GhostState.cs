@@ -103,8 +103,8 @@ public class GhostState : MonoBehaviour
         {
             if (collision.CompareTag("Player"))
             {
-                // set player dead
-                //collision;
+                collision.GetComponent<PacMan_AI>().OnKill();
+                collider.enabled = false;
             }
         }
     }
