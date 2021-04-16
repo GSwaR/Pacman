@@ -14,6 +14,12 @@ public class MovingInputHandler : InputHandler
         else if (Input.GetKey(KeyCode.LeftArrow)) return Button;
         else if (Input.GetKey(KeyCode.RightArrow)) return Button;
 
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+            return null;
+        }
+
         else return Button;
     }
 

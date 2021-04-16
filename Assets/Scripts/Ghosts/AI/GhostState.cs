@@ -5,6 +5,7 @@ using Pathfinding;
 
 public class GhostState : MonoBehaviour
 {
+    public AudioSource audio;
     private GhostPath ghostPath;
     public Collider2D collider;
 
@@ -97,11 +98,12 @@ public class GhostState : MonoBehaviour
             if (collision.CompareTag("Player"))
             {
                 OnBecameDead();
+                audio.Play();
             }
         }
         else
         {
-            if (collision.CompareTag("Player"))
+            if (collision.CompareTag("Player") && !animator.GetBool("Dead"))
             {
                 collision.GetComponent<PacMan_AI>().OnKill();
                 collider.enabled = false;

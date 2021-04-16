@@ -22,7 +22,6 @@ public class Score : MonoBehaviour
         text = GetComponent<Text>();
 
         scoreObject = FindObjectOfType<Score>();
-        scoreObject.OnScore += lifeObject.OnScorePoints;
     }
 
     public void Eat(int _score)
