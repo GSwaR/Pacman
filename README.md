@@ -1,2 +1,2 @@
-# Pacman game by Yaroslav aka SwAR, and by Yana
+# Pacman game by Yaroslav and Yana
 Simple google's pacman clone made for NUBIP 
