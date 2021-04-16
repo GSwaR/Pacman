@@ -44,18 +44,20 @@ public class GhostState : MonoBehaviour
 
     public void Update()
     {
-        if (State)
+        if (State && !animator.GetBool("Dead"))
         {
             PickUpNextPoint();
         }
 
         if (animator.GetBool("Dead"))
         {
+            setter.target = spawner;
             if (path.reachedDestination)
             {
                 ghostPath.enabled = true;
                 ghostPath.StartAfterEnable();
                 animator.SetBool("Dead", false);
+                collider.enabled = true;
             }
         }
 
@@ -74,9 +76,10 @@ public class GhostState : MonoBehaviour
     {
         State = false;
         collider.enabled = false;
-        setter.target = spawner;
-        animator.SetBool("WalkingDead", false);
         animator.SetBool("Dead", true);
+        animator.SetBool("WalkingDead", false);
+
+        setter.target = spawner;
     }
 
     public void OnBecameAllive()
