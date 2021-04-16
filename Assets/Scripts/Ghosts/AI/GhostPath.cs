@@ -27,6 +27,13 @@ public class GhostPath : MonoBehaviour
         StartCoroutine(Wait(timeToExit));
     }
 
+    public void StartAfterEnable()
+    {
+        setter.target = SpawnDown;
+        timeExpired = false;
+        StartCoroutine(Wait(timeToExit));
+    }
+
     public void Update()
     {
         if (timeExpired)
@@ -70,7 +77,7 @@ public class GhostPath : MonoBehaviour
             else
             {
                 setter.target = player;
-                Destroy(this);
+                this.enabled = false;
             }
 
         }
@@ -78,14 +85,14 @@ public class GhostPath : MonoBehaviour
 
     IEnumerator PickUp(float time)
     {
-        yield return time;
+        yield return new WaitForSeconds(time);
         dir = true;
         setter.target = SpawnUp;
         started = false;
     }
     IEnumerator PickDown(float time)
     {
-        yield return time;
+        yield return new WaitForSeconds(time);
         dir = false;
         setter.target = SpawnDown;
         started = false;
@@ -94,7 +101,7 @@ public class GhostPath : MonoBehaviour
 
     IEnumerator Wait(float time)
     {
-        yield return time;
+        yield return new WaitForSeconds(time);
         timeExpired = true;
     }
 
